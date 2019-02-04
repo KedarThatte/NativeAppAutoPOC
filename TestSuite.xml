@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Smoke Test" >
+
+    <test name="Native Application Smoke Test">
+        <classes>
+            <class name="org.appiumseleniumpoc.tests.Apptest"></class>
+        </classes>
+    </test>
+
+    <!--<test name="back-end">
+        <packages>
+            <package name="com.websystique.testng.backend.*" />
+        </packages>
+    </test>-->
+
+</suite>
