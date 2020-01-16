@@ -38,19 +38,21 @@ public class BaseAndroidDriver extends Config {
                 "main"+File.separator+"resources"+File.separator+"apks"+File.separator+"AEandAerie_com.ae.ae.apk");
         DesiredCapabilities cap = new DesiredCapabilities();
 
-        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().usingPort(4723));
+        service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder().usingPort(4725));
         service.start();
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName","Android");
-        capabilities.setCapability("platformVersion","8.1");
-        capabilities.setCapability("deviceName","Nexus 6P");
+        capabilities.setCapability("platformVersion","8");
+        capabilities.setCapability("deviceName","emulator-5554");
         capabilities.setCapability("automationName", "UiAutomator2");
         capabilities.setCapability("app",appDir.getAbsolutePath());
-        driver = new AndroidDriver(new URL("http://0.0.0.0:4723/wd/hub"),capabilities);
-        driver.manage().timeouts().implicitlyWait(10 ,TimeUnit.SECONDS);
-        driver.findElement(By.id("com.ae.ae:id/imageButtonClose")).isDisplayed();
-        driver.findElement(By.id("com.ae.ae:id/imageButtonClose")).click();
+        driver = new AndroidDriver(new URL("http://0.0.0.0:4725/wd/hub"),capabilities);
+        driver.manage().timeouts().implicitlyWait(20,TimeUnit.SECONDS);
+        driver.findElement(By.id("com.ae.ae:id/txt_full_access")).isDisplayed();
+        driver.findElement(By.id("com.ae.ae:id/txt_full_access")).click();
+        driver.findElement(By.id("com.ae.ae:id/disable")).isDisplayed();
+        driver.findElement(By.id("com.ae.ae:id/disable")).click();
         Assert.assertTrue(driver.findElement(By.xpath(".//android.widget.TextView[@text='Shop']")).isDisplayed());
         System.out.println("AUT Start Success!");
         Reporter.log("AUT Start Success!");

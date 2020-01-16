@@ -45,9 +45,9 @@ public class Apptest extends BaseAndroidDriver {
         appnav.openSearchResult(config.getProperty("selectfromsearch"));
         Catalog catalog=new Catalog(driver);
         Assert.assertTrue(catalog.productCatalogDisplayed());
-        Reporter.log("Catalog Open with Products related to suggestions");
+        Reporter.log("Catalog Open");
     }
-    @Test(dependsOnMethods = {"openProductCatalog"},description = "Product page for selected product is opened")
+    @Test(dependsOnMethods = {"openProductCatalog"})
     @Severity(SeverityLevel.CRITICAL)
     @Description("Product Page from the app is opened")
     public void selectAProductFromCatalog() throws InterruptedException{
@@ -60,13 +60,12 @@ public class Apptest extends BaseAndroidDriver {
         }
         catalog.openAppProdPage();
         Assert.assertEquals(driver.findElement(By.id("com.ae.ae:id/toolbar_title")).getText(),"Original Straight Jean");
-        Reporter.log("Product is selected from the catalog");
     }
 
-    @Test(dependsOnMethods = {"selectAProductFromCatalog"},description = "Select the size of the product from product page and add to bag")
+    @Test(dependsOnMethods = {"selectAProductFromCatalog"})
     @Severity(SeverityLevel.CRITICAL)
     @Description("Product size is selected and it is added to bag")
-    public void selectProductSizeAddToBag(){
+    public void selectProductAddToBag(){
         ProductPage productPage = new ProductPage((AndroidDriver)driver);
         while (productPage.sizeSelectorInvisible()) {
             verticalScrollProductPage();
@@ -77,23 +76,20 @@ public class Apptest extends BaseAndroidDriver {
         productPage.addToBag();
         AppNavigation appnav = new AppNavigation((AndroidDriver) driver);
         Assert.assertEquals(String.valueOf(appnav.getBagCount()),"1");
-        Reporter.log("Product size selected and Product added to Bag");
     }
-    @Test(dependsOnMethods = {"selectProductSizeAddToBag"},description = "Login to application from bag and Order Product")
+    @Test(dependsOnMethods = {"selectProductAddToBag"},description = "Login and Order Product")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Login and Order Product")
     public void loginAndOrder() throws InterruptedException {
         AppNavigation appnav = new AppNavigation((AndroidDriver) driver);
         appnav.openBag();
-        driver.findElement(By.id("com.ae.ae:id/dont_have_account")).click();
-        Login login = new Login((AndroidDriver) driver);
-        login.loginToTheApplication(config.getProperty("useremail"),config.getProperty("password"));
-        CheckOut checkOut= new CheckOut((AndroidDriver)driver);
-        checkOut.checkOutProduct();
-        checkOut.placeOrder();
-        checkOut.setRatingnotnow();
+        driver.findElement(By.id("com.ae.ae:id/txt_sign_in")).click();
+        SignIn signIn = new SignIn((AndroidDriver) driver);
+        signIn.signInAUT(config.getProperty("useremail"),config.getProperty("password"));
+        driver.findElement(By.xpath(".//android.widget.Button[@text='CHECKOUT']")).click();
+        driver.findElement(By.id("com.ae.ae:id/md_buttonDefaultNegative")).click();
         Assert.assertTrue(driver.findElement(By.id("com.ae.ae:id/thank_you_label")).getText().equalsIgnoreCase("Thank you for your order!"));
-        Reporter.log("User logs in through the sign in link from the bag and orders the selected Product");
-
+        /*driver.findElement(By.id("com.ae.ae:id/payment_security_code")).click();
+        driver.findElement(By.id("com.ae.ae:id/payment_security_code")).sendKeys("123");*/
     }
 }

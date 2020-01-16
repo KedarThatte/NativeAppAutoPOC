@@ -32,7 +32,7 @@ public class ProductPage {
     public ProductPage(AndroidDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
-        wait = new WebDriverWait(driver,5);
+        wait = new WebDriverWait(driver,30);
     }
     @Step
     public boolean sizeSelectorDisplayed(){
@@ -64,6 +64,7 @@ public class ProductPage {
     @Step
     public void addToBag(){
         wait.until(ExpectedConditions.visibilityOf(addtobag)).click();
+        Assert.assertTrue(wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.ae.ae:id/bagcount"))).getText().equalsIgnoreCase("1"));
     }
 
 

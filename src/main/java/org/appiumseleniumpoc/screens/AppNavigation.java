@@ -51,7 +51,7 @@ public class AppNavigation {
     public AppNavigation(AndroidDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
-        wait=new WebDriverWait(driver,5);
+        wait=new WebDriverWait(driver,30);
     }
     @Step
     public void visibleElement(WebElement e1){

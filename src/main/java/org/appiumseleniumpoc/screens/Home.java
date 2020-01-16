@@ -20,6 +20,6 @@ public class Home {
     public Home(AndroidDriver driver){
         this.driver=driver;
         PageFactory.initElements(driver,this);
-        wait=new WebDriverWait(driver,5);
+        wait=new WebDriverWait(driver,30);
     }
 }
